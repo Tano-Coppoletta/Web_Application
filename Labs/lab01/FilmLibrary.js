@@ -4,21 +4,22 @@ const isSameOrAfter= require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
 dayjs.extend(isSameOrBefore)
+const customParseFormat = require("dayjs/plugin/customParseFormat");
+dayjs.extend(customParseFormat);
 
 function Film(id,title, ...parameters){
     //create a film with the mandatory parameters 
-    let film={id:id, title:title,favorite: false, date: undefined,rating: undefined};
+    let film={id:id, title:title,favorite: false, date: dayjs(""),rating: undefined};
     
-    if(typeof(parameters[0])==='boolean'){
-        film.favorite=parameters[0];
-    }
-    if(dayjs(parameters[1]).isValid()){
-        film.date=dayjs(parameters[1]);
-    }
-    if(typeof(parameters[2])==='number'){
-        if(parameters[2]<6 && parameters[2]>0){
-            film.rating=parameters[2];
-        }
+    for(let i=0;i<parameters.length;i++){
+        let type=typeof(parameters[i]);
+        if(type==="boolean" && i===0)
+            film.favorite=parameters[i];
+        else if(type==="string" && i<=1)
+            film.date=dayjs(parameters[i]);
+        else if(type==="number" && i<=2)
+            film.rating=parameters[i];
+        
     }
 
     return film;
@@ -42,7 +43,10 @@ function FilmLibrary(){
     this.sortByDate = () => {
         let sorted=[];
         sorted=this.filmList.sort((a,b) => {
-            return a.date.isSameOrBefore(b);
+            if(!a.date.isValid() && !b.date.isValid()) return a.id-b.id;
+            if(!a.date.isValid()) return 1;
+            if(!b.date.isValid()) return -1;
+            return a.date.isSameOrAfter(b) ? -1 : 1;
         })
         return sorted;
     }
@@ -60,7 +64,7 @@ function FilmLibrary(){
     //remove the watch date of all the films in the FilmLibrary
     this.resetWatchedFilms =  () => {
         this.filmList.forEach((Film) => {
-            Film.date=undefined;
+            Film.date=dayjs("");
         })
     }
 
@@ -87,7 +91,7 @@ sortedLibrary=filmLibrary.sortByDate();
 
 //sortedLibrary.forEach((a)=> {console.log(a)})
 
-filmLibrary.deleteFilm(1);
+//filmLibrary.deleteFilm(1);
 
 //filmLibrary.print();
 
