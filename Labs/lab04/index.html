@@ -13,6 +13,8 @@
     
         <!--import dayjs and the js file-->
         <script defer src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+        <script defer src="https://unpkg.com/dayjs@1.8.21/plugin/utc.js"></script>
+        <!--script>dayjs.extend(window.dayjs_plugin_utc)</script-->
         <script defer src="FilmLibrary.js"></script>
         <script defer src='main.js'></script>
 
@@ -38,21 +40,22 @@
             </div>
             
           </nav>    
-        <div class="container">
-                <div class="row">
-                    <aside class="col-2">
-                        <div class="list-group" id="leftItems">
-                            <a href="#" class="list-group-item list-group-item-action active" aria-current="true" id="allFilms">
-                              All
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">Favorites</a>
-                            <a href="#" class="list-group-item list-group-item-action">Best Rated</a>
-                            <a href="#" class="list-group-item list-group-item-action">Last Seen</a>
-                            <a href="#" class="list-group-item list-group-item-action">Seen Last Month</a>
-                          </div>
-                    </aside>
+       
+          <div class="row">
+            <div class="col-2">
+              <div class="list-group" id="leftItems" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="allFilms" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">All</a>
+                <a class="list-group-item list-group-item-action" id="favoriteButton" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">Favorites</a>
+                <a class="list-group-item list-group-item-action" id="bestRatedButton" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Best rated</a>
+                <a class="list-group-item list-group-item-action" id="seenLMButton" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Last Seen</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Seen last month</a>
+             
+              </div>
+            </div>
+
+              </aside>
                     <main id="maincontent" class="col-10">
-                        <h1>All</h1>
+                        <h1 id="titleOfTable"></h1>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -61,6 +64,7 @@
                                     <th>Favorite</th>
                                     <th>Date</th>
                                     <th>Rating</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -67,6 +67,14 @@ function FilmLibrary(){
        
        return this.filmList.filter((Film) => Film.rating!==undefined)
     }
+
+    this.getFavorites= () => {
+        return this.filmList.filter((Film) => Film.favorite===true);
+    }
+
+    this.seenLastMonth = () => {
+        return this.filmList.filter((film) => film.date.isSameOrBefore(dayjs(),'month'));
+    }
 }
 
 
