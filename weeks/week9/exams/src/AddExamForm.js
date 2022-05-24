@@ -4,6 +4,7 @@ import {Button, Form} from "react-bootstrap"
 
 function AddExamForm(props){
     const defaultCode='';
+    let a=0;
 
     const [code,setCode]= useState(props.mode==='edit' ? props.editedExam.code : defaultCode);
     const [name,setName]=useState(props.mode==='edit' ? props.editedExam.name : '');
